@@ -1,7 +1,5 @@
 package com.jokieh.kyu_8;
 
-import com.jokieh.kyu_8.Multiply;
-
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 

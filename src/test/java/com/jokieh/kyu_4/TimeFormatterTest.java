@@ -1,6 +1,5 @@
 package com.jokieh.kyu_4;
 
-import com.jokieh.kyu_4.TimeFormatter;
 import org.junit.Test;
 import java.util.*;
 import static org.junit.Assert.*;
