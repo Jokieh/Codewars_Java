@@ -1,0 +1,1 @@
+My solutions to exercises from https://www.codewars.com/
