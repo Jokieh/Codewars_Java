@@ -1,2 +1,11 @@
-package com.jokieh.kyu_8;public class Multiply {
+//https://www.codewars.com/kata/50654ddff44f800200000004
+
+package com.jokieh.kyu_8;
+
+public class Multiply {
+
+    public static Double multiply(Double a, Double b) {
+        return a * b;
+    }
+
 }
