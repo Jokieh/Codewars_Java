@@ -3,16 +3,20 @@
 package com.jokieh.kyu_3;
 
 import java.util.LinkedHashMap;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Alphametics {
 
-    private LinkedHashMap<Character, Integer> letterValues = new LinkedHashMap<Character, Integer>();
+    private LinkedHashMap<Character, Integer> dictionary = new LinkedHashMap<Character, Integer>();
+    private LinkedHashMap<String, Integer> soutionHashMap = new LinkedHashMap<String, Integer>();
 
     public Alphametics(String s) {
 
-        initializeHashMap(s);
-        randomizeValues();
+        initializeDictionary(s);
+        initializeSolutionHashMap(s);
+
+        randomizeDictionary();
 
         String solutionString = replaceWithMappedCharacters(s);
 
@@ -26,13 +30,13 @@ public class Alphametics {
         return null;
     }
 
-    private void initializeHashMap (String inputString) {
+    private void initializeDictionary (String inputString) {
 
         for (Character c: inputString.toCharArray()) {
 
             if (!(c.equals('+') || c.equals(' ') || c.equals('='))) {
 
-                    letterValues.put(c , 0);
+                    dictionary.put(c , 0);
 
             }
 
@@ -40,18 +44,34 @@ public class Alphametics {
 
     }
 
-    private void randomizeValues () {
+    private void initializeSolutionHashMap (String inputString) {
+
+        inputString.replace(" ","");
+        String [] inputStringArray = inputString.split("[+=]");
+
+        for (int i = 0; i < inputStringArray.length; i++) {
+
+            soutionHashMap.put(inputStringArray[i], 0);
+
+        }
+
+
+    }
+
+    private void randomizeDictionary () {
 
 
         AtomicBoolean isFirstLetter = new AtomicBoolean(true);
 
-        letterValues.forEach( (letter, value) -> {
+        dictionary.forEach( (letter, value) -> {
+
+            Random random = new Random();
 
             if (isFirstLetter.get()) {
 
                 do {
 
-                    value = (int) (Math.random() * 10);
+                    value = random.nextInt(10);
 
                 } while (value == 0);
 
@@ -61,9 +81,9 @@ public class Alphametics {
 
                 do {
 
-                    value = (int) (Math.random() * 10);
+                    value = random.nextInt(10);
 
-                } while (letterValues.values().contains(value));
+                } while (dictionary.values().contains(value));
 
             }
 
