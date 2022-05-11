@@ -2,32 +2,45 @@
 
 package com.jokieh.kyu_3;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Alphametics {
 
     private LinkedHashMap<Character, Integer> dictionary = new LinkedHashMap<Character, Integer>();
-    private LinkedHashMap<String, Integer> soutionHashMap = new LinkedHashMap<String, Integer>();
+    private ArrayList<Map.Entry<String, Integer>> solutionMap = new ArrayList<Map.Entry<String, Integer>>();
 
     public Alphametics(String s) {
 
         initializeDictionary(s);
-        initializeSolutionHashMap(s);
+        initializeSolutionMap(s);
 
-        randomizeDictionary();
+        Boolean validSolution = false;
 
-        String solutionString = replaceWithMappedCharacters(s);
+        while (!validSolution) {
 
-        System.out.println(solutionString);
+            randomizeDictionary();
+            mapCharacters();
+
+            validSolution = validateSolution();
+
+        }
 
 
     }
 
     public String solve() {
-        // Your code here too!!
-        return null;
+
+        StringBuilder solutionString = new StringBuilder();
+
+        solutionString.append(solutionMap.get(0).getValue().toString() + " + ");
+        solutionString.append(solutionMap.get(1).getValue().toString() + " = ");
+        solutionString.append(solutionMap.get(2).getValue().toString());
+
+        return solutionString.toString();
     }
 
     private void initializeDictionary (String inputString) {
@@ -44,14 +57,15 @@ public class Alphametics {
 
     }
 
-    private void initializeSolutionHashMap (String inputString) {
+    private void initializeSolutionMap (String inputString) {
 
-        inputString.replace(" ","");
-        String [] inputStringArray = inputString.split("[+=]");
+
+        //inputString.replace("\\s+","");
+        String [] inputStringArray = inputString.split("\\s[+=]\\s");
 
         for (int i = 0; i < inputStringArray.length; i++) {
 
-            soutionHashMap.put(inputStringArray[i], 0);
+            solutionMap.add(Map.entry(inputStringArray[i], 0));
 
         }
 
@@ -91,21 +105,38 @@ public class Alphametics {
 
     }
 
-    private String replaceWithMappedCharacters (String s) {
+    private void mapCharacters () {
 
-        for (Character c : s.toCharArray()) {
+        solutionMap.forEach( entry -> {
 
-            if (!(c.equals('+') || c.equals(' ') || c.equals('='))) {
+            String entryKey = entry.getKey();
 
-                c = Character.forDigit(letterValues.get(c),10);
+            Integer entryValue;
 
+            char[] ch = entryKey.toCharArray();
+
+            for (Character c : ch) {
+                c = Character.forDigit(dictionary.get(c), 10);
             }
 
+            entryKey = ch.toString();
 
+            entryValue = Integer.valueOf(entryKey);
 
-        }
+            entry.setValue(entryValue);
 
-        return s;
+        });
 
     }
+
+    private Boolean validateSolution () {
+
+        if ((solutionMap.get(0).getValue() + solutionMap.get(1).getValue()) == solutionMap.get(2).getValue()) {
+            return true;
+        } else return false;
+
+    }
+
+
+
 }
