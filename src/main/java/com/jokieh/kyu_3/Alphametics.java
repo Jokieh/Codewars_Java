@@ -5,13 +5,13 @@ package com.jokieh.kyu_3;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class Alphametics {
 
     private LinkedHashMap<Character, Integer> dictionary = new LinkedHashMap<Character, Integer>();
     private ArrayList<Map.Entry<String, Integer>> solutionMap = new ArrayList<Map.Entry<String, Integer>>();
+    private Boolean isFirstLetter = true;
 
     public Alphametics(String s) {
 
@@ -59,13 +59,11 @@ public class Alphametics {
 
     private void initializeSolutionMap (String inputString) {
 
-
-        //inputString.replace("\\s+","");
         String [] inputStringArray = inputString.split("\\s[+=]\\s");
 
         for (int i = 0; i < inputStringArray.length; i++) {
 
-            solutionMap.add(Map.entry(inputStringArray[i], 0));
+            solutionMap.add(Map.entry(inputStringArray[i], (int) (Math.random()*10)));
 
         }
 
@@ -75,27 +73,28 @@ public class Alphametics {
     private void randomizeDictionary () {
 
 
-        AtomicBoolean isFirstLetter = new AtomicBoolean(true);
+        isFirstLetter = true;
 
         dictionary.forEach( (letter, value) -> {
 
-            Random random = new Random();
 
-            if (isFirstLetter.get()) {
+            if (isFirstLetter) {
 
                 do {
 
-                    value = random.nextInt(10);
+                    value = (int) (Math.random()*10);
+                    dictionary.replace(letter, value);
 
                 } while (value == 0);
 
-                isFirstLetter.set(false);
+                isFirstLetter = false;
 
             } else {
 
                 do {
 
-                    value = random.nextInt(10);
+                    value = (int) (Math.random()*10);
+                    dictionary.replace(letter, value);
 
                 } while (dictionary.values().contains(value));
 
