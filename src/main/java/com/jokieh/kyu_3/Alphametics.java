@@ -12,6 +12,7 @@ public class Alphametics {
     private LinkedHashMap<Character, Integer> dictionary = new LinkedHashMap<Character, Integer>();
     private ArrayList<Map.Entry<String, Integer>> solutionMap = new ArrayList<Map.Entry<String, Integer>>();
     private Boolean isFirstLetter = true;
+    double iterations = 0;
 
     public Alphametics(String s) {
 
@@ -26,6 +27,10 @@ public class Alphametics {
             mapCharacters();
 
             validSolution = validateSolution();
+
+            iterations++;
+            System.out.println(iterations);
+
 
         }
 
